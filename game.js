@@ -4,8 +4,11 @@ let characters = [];
 let timer = 0;
 
 const SFX = new Proxy({}, {
-  get(o, key) {
-    return document.querySelector(`audio[data-key=${key}]`);
+  get(_, key) {
+    const a = document.querySelector(`audio[data-key=${key}]`);
+    a.pause();
+    a.currentTime = 0;
+    return a;
   }
 });
 
@@ -149,6 +152,18 @@ class Character extends AnimatedSprite {
   }
 
   move(dx, dy) {
+    while (Math.abs(dx) > 0.25) {
+      const e = this.move(Math.sign(dx) * 0.25, dy);
+      if (e)
+        return e;
+      dx-= Math.sign(dx) * 0.25;
+    }
+    while (Math.abs(dy) > 0.25) {
+      const e = this.move(dx, Math.sign(dy) * 0.25);
+      if (e)
+        return e;
+      dy-= Math.sign(dy) * 0.25;
+    }
     if (this.dead)
       return false;
     const nx = this.x + dx, ny = this.y + dy;
@@ -206,7 +221,7 @@ class Hero extends Character {
     };
   }
 
-  keyEvent(e, r) {
+  keyEvent(e) {
     let k = null;
     switch (e.key.toLowerCase()) {
       case 'h':
@@ -360,13 +375,12 @@ customElements.define('side-scrolling', class extends HTMLElement {
   update() {
     let hero = characters.find((c) => c instanceof Hero);
     if (hero) {
-      const w = this.parentElement.offsetWidth, space = w * 0.3;
-      const x = hero.offsetLeft - this.left;
-      if (x > w - space)
-        this.left = hero.offsetLeft - (w - space);
-      if (x < space)
-        this.left = Math.max(hero.offsetLeft - space, 0);
-      this.style.left = -this.left;
+      const x = hero.x - this.left;
+      if (x > 10)
+        this.left = hero.x - 10;
+      if (x < 8)
+        this.left = Math.max(hero.x - 8, 0);
+      this.style.setProperty('--scroll', `calc(-5vh * ${this.left})`);
     }
   }
 });

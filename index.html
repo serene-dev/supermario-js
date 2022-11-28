@@ -24,6 +24,7 @@
       display: none;
     }
     side-scrolling {
+      --scroll: 0;
       position: relative;
     }
     .sprite {
@@ -45,7 +46,8 @@
       background-image: url('sprites.png');
       background-size: calc(160vh);
       background-position: calc(-5vh * var(--sprite-x)) calc(-5vh * var(--sprite-y));
-      transform: scaleX(var(--direction));
+      background-repeat: no-repeat;
+      transform: translateX(var(--scroll)) scaleX(var(--direction));
     }
   </style>
   <body>
