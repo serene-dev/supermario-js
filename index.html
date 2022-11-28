@@ -1,0 +1,90 @@
+<html>
+  <style>
+    game-world {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 104vh;
+      margin: auto;
+      background-color: #5c94fc;
+      overflow: hidden;
+    }
+    div {
+      display: block;
+      color: white;
+      margin: auto;
+      font-size: 2em;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 49%;
+    }
+    game-world.playing div {
+      display: none;
+    }
+    side-scrolling {
+      position: relative;
+    }
+    .sprite {
+      --x: 0;
+      --y: 0;
+      --sprite-x: 0;
+      --sprite-y: 0;
+      --w: 1;
+      --h: 1;
+      --z: 0;
+      --direction: 1
+        display: block;
+      position: absolute;
+      z-index: var(--z);
+      top: calc(5vh * var(--y));
+      left: calc(5vh * var(--x));
+      width: calc(5vh * var(--w));
+      height: calc(5vh * var(--h));
+      background-image: url('sprites.png');
+      background-size: calc(160vh);
+      background-position: calc(-5vh * var(--sprite-x)) calc(-5vh * var(--sprite-y));
+      transform: scaleX(var(--direction));
+    }
+  </style>
+  <body>
+    <game-world>
+      <div>Press any key!</div>
+      <side-scrolling>
+        <script>
+          for (let i = 0; i < 90; i++) {
+            if ((i > 47 && i < 55) || (i > 65 && i < 75))
+              continue;
+            document.write(`<game-stone x="${i}" y="18"></game-stone>`);
+            document.write(`<game-stone x="${i}" y="19"></game-stone>`);
+          }
+        </script>
+        <game-stone x="4" y="14"></game-stone>
+        <game-clouds2 x="4" y="5"></game-clouds2>
+        <game-clouds3 x="20" y="8"></game-clouds3>
+        <game-clouds1 x="38" y="10"></game-clouds1>
+        <game-bush2 x="10" y="17"></game-bush2>
+        <game-bighill x="0" y="16"></game-bighill>
+        <game-bricks x="18" y="14"></game-bricks>
+        <game-bricks x="19" y="14"></game-bricks>
+        <game-coinsblock x="20" y="14"></game-coinsblock>
+        <game-bricks x="21" y="14"></game-bricks>
+        <game-pipe x="25" y="16"></game-pipe>
+        <game-pipe x="40" y="16"></game-pipe>
+        <game-hero x="4" y="10"></game-hero>
+        <game-goomba x="23" y="17"></game-goomba>
+        <game-goomba x="29" y="17"></game-goomba>
+        <game-goomba x="33" y="17"></game-goomba>
+      </side-scrolling>
+    </game-world>
+
+    <script type="module" src="game.js"></script>
+
+    <audio data-key="music"><source src="sfx/music.mp3" /></audio>
+    <audio data-key="bump"><source src="sfx/smb_bump.wav" /></audio>
+    <audio data-key="jump"><source src="sfx/smb_jump-small.wav" /></audio>
+    <audio data-key="die"><source src="sfx/smb_mariodie.wav" /></audio>
+    <audio data-key="stomp"><source src="sfx/smb_stomp.wav" /></audio>
+  </body>
+</html>
